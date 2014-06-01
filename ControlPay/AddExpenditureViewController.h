@@ -11,9 +11,13 @@
 @interface AddExpenditureViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>{
     NSArray *myCategories;
     NSIndexPath *selectedIndexPath;
+    IBOutlet UIImageView * imagePreview;
+    IBOutlet UIButton *setButton;
 }
 @property(strong, nonatomic)IBOutlet UICollectionView *collectionView;
 @property(strong, nonatomic)IBOutlet UITextField *amountTextField;
 
 -(IBAction)addButton:(id)sender;
+-(IBAction)cancelEditingForView:(id)sender;
+
 @end

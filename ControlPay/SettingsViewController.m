@@ -29,6 +29,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     settingsArray = [[NSArray alloc] initWithObjects:@"Reset Password", nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    resetViewController = [storyboard instantiateViewControllerWithIdentifier:@"ResetPasswordViewController"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,5 +71,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if(indexPath.row == 0){
+        [self.navigationController pushViewController:resetViewController animated:YES];
+    }
 }
 @end

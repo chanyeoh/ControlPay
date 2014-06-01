@@ -12,6 +12,8 @@
 
 #define LOGIN_URL @"account/login"
 #define REGISTER_URL @"account/addaccount"
+#define CHANGE_PASSWORD @"account/changePassword"
+#define UPDATE_PROFILE @"account/uploadProfileImage"
 
 #define GET_FRIENDS_URL @"friends/getFriendsList"
 #define SEARCH_PHONE_URL @"friends/getPhoneNumber"

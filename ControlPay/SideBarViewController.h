@@ -13,6 +13,7 @@
     IBOutlet UITableView *sideBarTableView;
     NSArray *sideBarArray;
     NSMutableArray *viewControllerArray;
+    IBOutlet UIImageView * imagePreview;
 }
 
 @property(strong, nonatomic)MFSideMenuContainerViewController *sidemenuContainer;

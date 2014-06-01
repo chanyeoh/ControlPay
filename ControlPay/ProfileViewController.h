@@ -14,6 +14,8 @@
     IBOutlet UIBarButtonItem *notificationBarButton;
     IBOutlet UIImageView * imagePreview;
     IBOutlet UIImageView * profilePic;
+    IBOutlet UIButton * addExpenses;
+    IBOutlet UIButton * addIncomes;
 
     
 }

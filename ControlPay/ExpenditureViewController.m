@@ -21,6 +21,12 @@
 @end
 
 @implementation ExpenditureViewController
+{
+    NSArray * labelItems;
+    NSArray *imageIcons;
+    NSArray *myCatagories;
+    NSMutableArray *expenditureNumbers;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,13 +43,22 @@
 	// Do any additional setup after loading the view.
     expenditureArray = [[NSArray alloc]initWithObjects:@"Expenditures", @"Debts", nil];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:10.5f withImage:[UIImage imageNamed:@"wallpapers5.jpg"]]];
-    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:75];
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:75];
+    labelItems = [NSArray arrayWithObjects:@"expensesItem.png",@"incomesItem.png",nil];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent.png"] forBarMetrics:UIBarMetricsDefault];
+    
+    imageIcons = [NSArray arrayWithObjects:@"transportationIcon.png", @"foodIcon.png", @"educationIcon.png", @"partyIcon.png" ,@"personalIcon.png",@"groceriesIcon.png",nil];
+    myCatagories = [NSArray arrayWithObjects:@"Transportation", @"Food",@"Books", @"Entertainment", @"Personal",@"Groceries", nil];
+    _container.panMode = MFSideMenuPanModeDefault;
+}
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    NSArray *pieColors = [NSArray arrayWithObjects:[UIColor blackColor], [UIColor blueColor], [UIColor greenColor], [UIColor orangeColor], [UIColor purpleColor], [UIColor redColor], nil];
-    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent.png"] forBarMetrics:UIBarMetricsDefault];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -84,29 +99,30 @@
     _container.panMode = MFSideMenuPanModeDefault;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void)loopData:(NSMutableArray *)expenditureModelList{
     // Loop Data
     NSArray *categories = [[NSArray alloc]initWithObjects:@"Transportation", @"Food", @"Books", @"Entertainment", @"Personal", @"Groceries", nil];
-    NSMutableArray *expenditureNumbers = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], nil];
-    
-    for (Expenditure *exp in expenditureModelList) {
-        for(int i = 0; i < [categories count]; i ++){
-            if([exp.category isEqualToString:[categories objectAtIndex:i]]){
+    expenditureNumbers = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], [NSNumber numberWithFloat:0], nil];
+    //for(int i =0; i < expenditureModelList.length; i ++){
+    // Expenditure *exp = [expenditureMoeList objectAtIndex: i];
+    for (Expenditure *exp in expenditureModelList)
+    {
+        for(int i = 0; i < [categories count]; i ++)
+        {
+            if([exp.category isEqualToString:[categories objectAtIndex:i]])
+            {
+                //NSLog(@"%@, %@", exp.category, [[expenditureNumbers objectAtIndex:i] stringValue]);
                 float amountVal = [[expenditureNumbers objectAtIndex:i] floatValue] + [exp.amount floatValue];
                 [expenditureNumbers setObject:[NSNumber numberWithFloat: amountVal] atIndexedSubscript:i];
                 break;
             }
+            
         }
+     NSLog(@"%@, %@", exp.category, exp.amount);
     }
-    NSArray *pieColors = [NSArray arrayWithObjects:[UIColor blackColor], [UIColor blueColor], [UIColor greenColor] ,nil];
-    pieView.pieColors = pieColors;
-    pieView.sliceValues = expenditureNumbers;
+    
+    NSLog(@"%@, %@", [categories objectAtIndex:2],[[expenditureNumbers objectAtIndex:2] stringValue]);
 }
 
 #pragma mark -
@@ -124,11 +140,11 @@
 #pragma mark -
 #pragma mark TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [expenditureArray count];
+    return [myCatagories count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return 65;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -145,9 +161,13 @@
     
     [cell.contentView addSubview:lineView];
     
-    cell.nameLabel.text = [expenditureArray objectAtIndex:indexPath.row];
-    cell.imageProperty.image = [UIImage imageNamed:@"slider.png"];
+    cell.nameLabel.text = [myCatagories objectAtIndex:indexPath.row];
+    NSLog(@"%@",[expenditureNumbers objectAtIndex:indexPath.row]);
+    cell.amountLabel.text = [expenditureNumbers objectAtIndex:indexPath.row];
+    //cell.imageProperty.image = [UIImage imageNamed:@"slider.png"];
     cell.backgroundColor = [UIColor clearColor];
+    cell.imageProperty.image = [UIImage imageNamed:[imageIcons objectAtIndex:indexPath.row]];
+    
     
     return cell;
 }

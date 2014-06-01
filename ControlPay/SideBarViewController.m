@@ -14,6 +14,7 @@
 #import "FriendsViewController.h"
 #import "DebtsViewController.h"
 #import "SettingsViewController.h"
+#import "UIImage+StackBlur.h"
 
 @interface SideBarViewController ()
 
@@ -38,7 +39,8 @@
     
     // The Layout and design end of the page
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:1.5f withImage:[UIImage imageNamed:@"backgroundBlurDef.jpg"]]];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wowWallpaper4.jpg"]];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wowWallpaper4.jpg"]];
+    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:175];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -124,6 +126,7 @@
         NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
         [self dismissViewControllerAnimated:YES completion:nil];
+        return;
     }
     _sidemenuContainer.centerViewController =[viewControllerArray objectAtIndex:indexPath.row];
     dispatch_async(dispatch_get_main_queue(), ^{

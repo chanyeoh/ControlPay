@@ -11,7 +11,12 @@
 //#import "backgroundDesignViewController.h"
 #import "UIImage+StackBlur.h"
 #import <QuartzCore/QuartzCore.h>
+#import "NotificationViewController.h"
 
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
+#import "ConstantVariables.h"
+#import "AddExpenditureViewController.h"
 
 @interface ProfileViewController ()
 
@@ -50,6 +55,7 @@
     [[rightButton layer] setBorderColor:[UIColor colorWithRed:1.0 green:91.0/255.0 blue:84.0/255.0 alpha:1.0].CGColor];
     [rightButton setImage:[UIImage imageNamed:@"notificationButton.png"] forState:UIControlStateNormal];
     [rightButton setImageEdgeInsets:UIEdgeInsetsMake(8, 6, 8, 6)];
+    [rightButton addTarget:self action:@selector(notificationButton:) forControlEvents:UIControlEventTouchUpInside];
 
     //rightButton.titleLabel.textColor = [UIColor lightGrayColor];
     
@@ -83,7 +89,7 @@
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:45.5f withImage:[UIImage imageNamed:@"wallpapers5.jpg"]]];
     
 	//StackBlur Option Background;
-    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:75];
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
     
     //UIImageView *profPic = [UIImage imageNamed:@"lionProfile.jpg"];
     profilePic.layer.cornerRadius = 10.0f;
@@ -92,7 +98,76 @@
     profilePic.layer.borderColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.7].CGColor;
     profilePic.image = [UIImage imageNamed:@"lionProfile.jpg"];
     
+    UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageSelect:)];
+    [profilePic addGestureRecognizer:imageTap];
     
+    addExpenses.layer.borderColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.7].CGColor;
+    addExpenses.layer.borderWidth = 1.0f;
+    addExpenses.layer.cornerRadius = 5.0f;
+    addIncomes.layer.borderColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.7].CGColor;
+    addIncomes.layer.borderWidth = 1.0f;
+    addIncomes.layer.cornerRadius = 5.0f;
+    
+}
+
+- (void)imageSelect:(UITapGestureRecognizer*)sender {
+    UIImagePickerController *imagePicker =
+    [[UIImagePickerController alloc] init];
+    
+    imagePicker.delegate = self;
+    
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    imagePicker.allowsEditing = YES;
+    [self presentViewController:imagePicker
+                       animated:YES completion:nil];
+}
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    // Code here to work with media
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIImage *profileImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    if([UIImageJPEGRepresentation(profileImage, 1) length] > 1 *1024*1024){
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+        return;
+    }
+    
+     NSData *imageData = UIImageJPEGRepresentation(profileImage, 1);
+     NSURL *url = [NSURL URLWithString:BASE_URL];
+     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+     NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:UPDATE_PROFILE parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+     [formData appendPartWithFileData:imageData name:@"file" fileName:@"profilepicture.jpg" mimeType:@"image/jpg"];
+     [formData appendPartWithFormData:[[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"id"]] dataUsingEncoding:NSUTF8StringEncoding] name:@"userid"];
+     }];
+     
+    
+     
+     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+     [httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+     
+     // if you want progress updates as it's uploading, uncomment the following:
+     [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+     //NSLog(@"Sent %lld of %lld bytes", totalBytesWritten, totalBytesExpectedToWrite);
+     }];
+     
+     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         NSData *data = (NSData *)responseObject;
+         NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+         NSLog(@"%@", str);
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSLog(@"%@", error);
+     }];
+     
+     [operation start];
+
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -116,13 +191,34 @@
 }
 
 #pragma mark -
+#pragma mark IBActions Method
+-(IBAction)notificationButton:(id)sender{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
+    // Notificaiton View Controller
+    NotificationViewController * notificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"NotificationViewController"];
+    [self.navigationController pushViewController:notificationViewController animated:YES];
+    
+}
+
+-(IBAction)addExpensesButton:(id)sender{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
+    // Notificaiton View Controller
+    AddExpenditureViewController * AddExpenditureViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddExpenditureViewController"];
+    [self.navigationController pushViewController:AddExpenditureViewController animated:YES];
+    
+}
+
+
+#pragma mark -
 #pragma mark TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 2;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+    return 65;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -142,8 +238,8 @@
     cell.titleText.text = [heading objectAtIndex:indexPath.row];
     cell.priceText.text = [pricing objectAtIndex:indexPath.row];
     
-    cell.headingLabel.layer.cornerRadius = 5.0f;
-    cell.headingLabel.layer.masksToBounds = YES;
+    //cell.headingLabel.layer.cornerRadius = 5.0f;
+    //cell.headingLabel.layer.masksToBounds = YES;
 
     cell.headingLabel.image = [UIImage imageNamed:[labelItems objectAtIndex:indexPath.row]];
     //cell.layer.cornerRadius = 500.0f;

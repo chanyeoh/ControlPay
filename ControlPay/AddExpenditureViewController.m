@@ -7,6 +7,7 @@
 //
 
 #import "AddExpenditureViewController.h"
+#import "ProfileViewController.h"
 
 #import "AFHTTPClient.h"
 #import "AFJSONRequestOperation.h"
@@ -15,12 +16,16 @@
 #import "backgroundDesignViewController.h"
 #import "Expenditure.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIImage+StackBlur.h"
 
 @interface AddExpenditureViewController ()
 
 @end
 
 @implementation AddExpenditureViewController
+{
+    NSArray *imageIcons;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,7 +46,14 @@
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:10.5f withImage:[UIImage imageNamed:@"wallpapers5.jpg"]]];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent.png"] forBarMetrics:UIBarMetricsDefault];
-    _amountTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"$ Enter Amount" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    _amountTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"$ Enter Amount" attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
+    
+    [_amountTextField resignFirstResponder];
+    
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:75];
+    
+    imageIcons = [NSArray arrayWithObjects:@"transportationIcon.png", @"foodIcon.png", @"educationIcon.png", @"partyIcon.png" ,@"personalIcon.png",@"groceriesIcon.png",nil];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,7 +66,8 @@
 
 -(IBAction)addButton:(id)sender{
     [_amountTextField resignFirstResponder];
-    if(!selectedIndexPath || [_amountTextField.text isEqualToString:@""]){
+    if(!selectedIndexPath || [_amountTextField.text isEqualToString:@""])
+    {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Please Fill in Everything" message:@"Please fill in Everything" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
 
@@ -88,7 +101,9 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed to Connect" message:@"Failed to Connect to Server, please check your internet connection" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
     }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 #pragma mark -
 #pragma mark Touches Began
@@ -106,6 +121,9 @@
     }
     return YES;
 }
+-(IBAction)cancelEditingForView:(id)sender {
+    [[self view] endEditing:YES];
+}
 
 #pragma mark -
 #pragma mark - UICollectionView Datasource
@@ -120,7 +138,10 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
     UILabel *textLabel = (UILabel *)[cell viewWithTag:10];
+    UIImageView *cellIMage = (UIImage *)[cell viewWithTag:9];
     textLabel.text = [myCategories objectAtIndex:indexPath.row];
+    
+    cellIMage.image = [UIImage imageNamed:[imageIcons objectAtIndex:indexPath.row]];
     
     cell.layer.cornerRadius = 10;
     cell.layer.masksToBounds = YES;
@@ -132,16 +153,19 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    cell.backgroundColor = [UIColor colorWithRed:1.0 green:91.0/255.0 blue:84.0/255.0 alpha:1.0];
-    if(selectedIndexPath){
-        cell = [collectionView cellForItemAtIndexPath:selectedIndexPath];
-        cell.backgroundColor = [UIColor colorWithRed:22.0/255.0 green:202.0/255.0 blue:226.0/255.0 alpha:0.5];
-    }
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.7];
+    /*if(selectedIndexPath){
+     cell = [collectionView cellForItemAtIndexPath:selectedIndexPath];
+     cell.backgroundColor = [UIColor redColor];
+     }*/
     selectedIndexPath = indexPath;
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Deselect item
+    
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor clearColor];
+    selectedIndexPath = indexPath;
 }
 
 @end

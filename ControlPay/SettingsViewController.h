@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "MFSideMenuContainerViewController.h"
+#import "ResetPasswordViewController.h"
 
 @interface SettingsViewController : UITableViewController{
     NSArray *settingsArray;
+    ResetPasswordViewController *resetViewController;
 }
 -(IBAction)toggleSwitch:(id)sender;
 @property(strong, nonatomic) MFSideMenuContainerViewController *container;

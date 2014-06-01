@@ -15,6 +15,9 @@
     IBOutlet UITextField *usernameTextField;
     IBOutlet UITextField *passwordTextField;
     
+    
+    IBOutlet UIButton * login;
+    IBOutlet UIButton * signup;
     IBOutlet UIImageView * imagePreview;
 }
 

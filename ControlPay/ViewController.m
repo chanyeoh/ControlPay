@@ -66,10 +66,43 @@
     //[self setNeedsStatusBarAppearanceUpdate];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
+    login.layer.cornerRadius = 5.0f;
+    login.layer.masksToBounds = YES;
+    signup.layer.cornerRadius = 5.0f;
+    signup.layer.masksToBounds = YES;
+    //UIImage *logo = [[self class] adjustImageSizeWhenCropping:[UIImage imageNamed:@"logo.png"]];
+    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logo];
+
+
+
     
         
 }
 
+-(UIImage *)adjustImageSizeWhenCropping:(UIImage *)image
+{
+    
+    float actualHeight = image.size.height;
+    
+    float actualWidth = image.size.width;
+    
+    
+    
+    float ratio=300/actualWidth;
+    actualHeight = actualHeight*ratio;
+    
+    CGRect rect = CGRectMake(0.0, 0.0, 200, 45);
+    // UIGraphicsBeginImageContext(rect.size);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 1.0);
+    [image drawInRect:rect];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return img;
+    
+    
+}
 /*-(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -86,7 +119,7 @@
 
 -(IBAction)loginClick:(id)sender{
     MBProgressHUD*HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.labelText = @"Logging in...";
+    HUD.labelText = @"Logging in";
     
     NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:usernameTextField.text, @"username", passwordTextField.text, @"password", nil];
     NSURL *url = [NSURL URLWithString:BASE_URL];

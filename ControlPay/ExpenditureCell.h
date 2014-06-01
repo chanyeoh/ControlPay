@@ -12,4 +12,6 @@
 
 @property(strong, nonatomic)IBOutlet UIImageView *imageProperty;
 @property(strong, nonatomic)IBOutlet UILabel *nameLabel;
+@property(strong, nonatomic)IBOutlet UILabel *amountLabel;
+
 @end
