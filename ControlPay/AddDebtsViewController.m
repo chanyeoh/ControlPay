@@ -43,7 +43,9 @@
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent.png"] forBarMetrics:UIBarMetricsDefault];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:75];
+
+    //StackBlur Option Background;
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
 
 }
 

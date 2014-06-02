@@ -40,7 +40,9 @@
     // The Layout and design end of the page
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:1.5f withImage:[UIImage imageNamed:@"backgroundBlurDef.jpg"]]];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wowWallpaper4.jpg"]];
-    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:175];
+    
+    //StackBlur Option Background;
+    imagePreview.image=[[UIImage imageNamed:@"singaporeSkyline.jpg"] stackBlur:20];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     

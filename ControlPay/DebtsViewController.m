@@ -45,7 +45,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     //StackBlur Option Background;
-    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:75];
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
     
     [self getDebtConnection];
     [self getOweConnection];
