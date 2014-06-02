@@ -46,6 +46,8 @@
 
     //StackBlur Option Background;
     imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
+    
+    initialPosition = -1;
 
 }
 
@@ -77,12 +79,11 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"SlideCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
         // Swipe Gesture
-        if(indexPath.row < [_friendsArray count]){
             UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(cellSwiped:)];
             [panRecognizer setMinimumNumberOfTouches:1];
             [panRecognizer setMaximumNumberOfTouches:1];
             [cell addGestureRecognizer:panRecognizer];
-        }
+        
     }
     if(indexPath.row >= [_friendsArray count]){
         [cell.friendLabel setHidden:YES];
@@ -96,6 +97,14 @@
     
     cell.friendLabel.text = friend.fullName;
     cell.moneyLabel.text = [NSString stringWithFormat:@"$%@", [theDictionary objectForKey:@"money"]];
+    cell.textColor = [UIColor whiteColor];
+    cell.friendLabel.shadowColor = [UIColor whiteColor];
+    cell.overLayView.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.35];
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 58, cell.contentView.frame.size.width, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    
+    [cell.contentView addSubview:lineView];
+
     return cell;
 }
 
@@ -167,15 +176,24 @@
 - (void)cellSwiped:(UIPanGestureRecognizer *)gesture {
     SlideCell *cell = (SlideCell *)gesture.view;
     
-    if (gesture.state == UIGestureRecognizerStateChanged) {
+    if (gesture.state == UIGestureRecognizerStateChanged)
+    {
+        
         // Get the location of our touch, this time in the context of the superview.
         CGPoint location = [gesture locationInView:self.view];
-        CGRect cellView = CGRectMake(0, 0, location.x, 60);
+        if(initialPosition == -1){
+            initialPosition = location.x;
+        }
+        CGRect cellView = CGRectMake(-(initialPosition - location.x), 0, 320, 60);
         cell.overLayView.frame = cellView;
         
-    }else if (gesture.state == UIGestureRecognizerStateEnded) {
+    }
+    else if (gesture.state == UIGestureRecognizerStateEnded)
+    {
         CGPoint location = [gesture locationInView:self.view];
-        if(location.x < 200){
+        initialPosition = -1;
+        if(location.x < 100)
+        {
             NSIndexPath *indexPath = [friendTableView indexPathForCell:cell];
             [_friendsArray removeObjectAtIndex:indexPath.row];
             [friendTableView reloadData];

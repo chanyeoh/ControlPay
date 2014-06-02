@@ -53,6 +53,10 @@
     imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:75];
     
     imageIcons = [NSArray arrayWithObjects:@"transportationIcon.png", @"foodIcon.png", @"educationIcon.png", @"partyIcon.png" ,@"personalIcon.png",@"groceriesIcon.png",nil];
+    
+    addExpenses.layer.cornerRadius = 5.0f;
+    addExpenses.layer.borderColor = [UIColor whiteColor].CGColor;
+    addExpenses.layer.borderWidth = 1.0f;
 
 }
 

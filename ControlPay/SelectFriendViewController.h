@@ -12,6 +12,7 @@
 @interface SelectFriendViewController : UIViewController{
     NSArray *friendArray;
     IBOutlet UITextField *amountMoney;
+    IBOutlet UIImageView * imagePreview;
 }
 @property (strong,nonatomic)AddDebtsViewController *addDebts;
 @end

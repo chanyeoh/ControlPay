@@ -10,6 +10,7 @@
 #import "FriendsCell.h"
 #import "backgroundDesignViewController.h"
 #import "Friend.h"
+#import "UIImage+StackBlur.h"
 
 @interface SelectFriendViewController ()
 
@@ -33,7 +34,8 @@
     NSData *friendData = [[NSUserDefaults standardUserDefaults] objectForKey:@"friendArray"];
     friendArray = [NSKeyedUnarchiver unarchiveObjectWithData:friendData];
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:1.5f withImage:[UIImage imageNamed:@"wallpapers5.jpg"]]];
+    //StackBlur Option Background;
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:80];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent.png"] forBarMetrics:UIBarMetricsDefault];
     
@@ -52,7 +54,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 65;
+    return 55;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -69,6 +71,15 @@
     cell.nameLabel.text = friend.fullName;
     [cell.nameLabel setTextColor:[UIColor cyanColor]];
     cell.subHeading.text = friend.status;
+    
+    cell.textColor = [UIColor whiteColor];
+    cell.textLabel.shadowColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor clearColor];
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 58, cell.contentView.frame.size.width, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    
+    [cell.contentView addSubview:lineView];
+
     
     return cell;
 }

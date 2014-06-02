@@ -12,6 +12,7 @@
     IBOutlet UITableView *friendTableView;
     int count;
     IBOutlet UIImageView * imagePreview;
+    double initialPosition;
     
 }
 @property(strong,nonatomic)NSMutableArray *friendsArray;

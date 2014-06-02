@@ -12,6 +12,7 @@
 
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
+#import "UIImage+StackBlur.h"
 
 @interface NotificationViewController ()
 
@@ -33,6 +34,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self getData];
+    //StackBlur Option Background;
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
     
 }
 

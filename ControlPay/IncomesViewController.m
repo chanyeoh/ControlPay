@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Yeoh. All rights reserved.
 //
 
-#import "LoansViewController.h"
+#import "IncomesViewController.h"
 
 #import "MBProgressHUD.h"
 #import "AFHTTPRequestOperation.h"
@@ -15,12 +15,13 @@
 #import "Expenditure.h"
 #import "AFJSONRequestOperation.h"
 #import "ConstantVariables.h"
+#import "UIImage+StackBlur.h"
 
-@interface LoansViewController ()
+@interface IncomesViewController ()
 
 @end
 
-@implementation LoansViewController
+@implementation IncomesViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +36,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    //StackBlur Option Background;
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
+    
+    addIncomes.layer.cornerRadius = 5.0f;
+    addIncomes.layer.borderColor = [UIColor whiteColor].CGColor;
+    addIncomes.layer.borderWidth = 1.0f;
 }
 
 - (void)didReceiveMemoryWarning

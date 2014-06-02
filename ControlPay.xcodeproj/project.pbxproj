@@ -98,7 +98,7 @@
 		65AD742E18F6F3AC00E6A7F7 /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD742B18F6F3AC00E6A7F7 /* UIViewController+MFSideMenuAdditions.m */; };
 		65AD743218F6F41300E6A7F7 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD743118F6F41300E6A7F7 /* MainViewController.m */; };
 		65AD743518F70E1300E6A7F7 /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD743418F70E1300E6A7F7 /* SideBarViewController.m */; };
-		65AD743818F70E7800E6A7F7 /* LoansViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD743718F70E7800E6A7F7 /* LoansViewController.m */; };
+		65AD743818F70E7800E6A7F7 /* IncomesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD743718F70E7800E6A7F7 /* IncomesViewController.m */; };
 		65D94406191FFC5E007041BF /* AddDebtsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D94405191FFC5E007041BF /* AddDebtsViewController.m */; };
 		65D94409191FFF86007041BF /* SelectFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D94408191FFF86007041BF /* SelectFriendViewController.m */; };
 		65E98694191D0B3B0068561F /* ExpenditureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E98693191D0B3B0068561F /* ExpenditureViewController.m */; };
@@ -257,8 +257,8 @@
 		65AD743118F6F41300E6A7F7 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		65AD743318F70E1300E6A7F7 /* SideBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideBarViewController.h; sourceTree = "<group>"; };
 		65AD743418F70E1300E6A7F7 /* SideBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideBarViewController.m; sourceTree = "<group>"; };
-		65AD743618F70E7800E6A7F7 /* LoansViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoansViewController.h; sourceTree = "<group>"; };
-		65AD743718F70E7800E6A7F7 /* LoansViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoansViewController.m; sourceTree = "<group>"; };
+		65AD743618F70E7800E6A7F7 /* IncomesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomesViewController.h; sourceTree = "<group>"; };
+		65AD743718F70E7800E6A7F7 /* IncomesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomesViewController.m; sourceTree = "<group>"; };
 		65D94404191FFC5E007041BF /* AddDebtsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDebtsViewController.h; sourceTree = "<group>"; };
 		65D94405191FFC5E007041BF /* AddDebtsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDebtsViewController.m; sourceTree = "<group>"; };
 		65D94407191FFF86007041BF /* SelectFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectFriendViewController.h; sourceTree = "<group>"; };
@@ -376,9 +376,9 @@
 				659BEC891927CF6D00C44375 /* DebtsCell.h */,
 				659BEC8A1927CF6D00C44375 /* DebtsCell.m */,
 				659BEC8C1927CF7E00C44375 /* DebtsCell.xib */,
-				656D907B192F8C00005C26AB /* Notification.xib */,
 				65FD1819193C17CF006F40A5 /* NotificationCell.h */,
 				65FD181A193C17CF006F40A5 /* NotificationCell.m */,
+				656D907B192F8C00005C26AB /* Notification.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -618,8 +618,8 @@
 				65AD743118F6F41300E6A7F7 /* MainViewController.m */,
 				65AD743318F70E1300E6A7F7 /* SideBarViewController.h */,
 				65AD743418F70E1300E6A7F7 /* SideBarViewController.m */,
-				65AD743618F70E7800E6A7F7 /* LoansViewController.h */,
-				65AD743718F70E7800E6A7F7 /* LoansViewController.m */,
+				65AD743618F70E7800E6A7F7 /* IncomesViewController.h */,
+				65AD743718F70E7800E6A7F7 /* IncomesViewController.m */,
 			);
 			name = MenuSlider;
 			sourceTree = "<group>";
@@ -828,7 +828,7 @@
 				65AD742E18F6F3AC00E6A7F7 /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				65AD743218F6F41300E6A7F7 /* MainViewController.m in Sources */,
 				16FD318619283525007B8A45 /* UIImage+StackBlur.m in Sources */,
-				65AD743818F70E7800E6A7F7 /* LoansViewController.m in Sources */,
+				65AD743818F70E7800E6A7F7 /* IncomesViewController.m in Sources */,
 				65AD740018F6F31A00E6A7F7 /* AppDelegate.m in Sources */,
 				65AD73FC18F6F31A00E6A7F7 /* main.m in Sources */,
 				658DBC0218F90BC70057A9E2 /* AFHTTPClient.m in Sources */,

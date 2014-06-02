@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoansViewController : UIViewController{
+@interface IncomesViewController : UIViewController{
     IBOutlet UITextField *amountTextfield;
+    IBOutlet UIImageView *imagePreview;
+    IBOutlet UIButton *addIncomes;
 }
 
 -(IBAction)addLoan:(id)sender;

@@ -12,6 +12,7 @@
 {
     IBOutlet UITableView *notificationTableView;
     NSArray *notificationArray;
+    IBOutlet UIImageView * imagePreview;
 }
 
 @end

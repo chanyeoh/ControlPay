@@ -38,8 +38,8 @@
     searchFriendArray = [[NSMutableArray alloc]init];
 
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:1.5f withImage:[UIImage imageNamed:@"wallpapers5.jpg"]]];
-    imagePreview.image=[[UIImage imageNamed:@"wowWallpaper5.jpg"] stackBlur:75];
-
+    //StackBlur Option Background;
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
 }
 
 - (void)didReceiveMemoryWarning
