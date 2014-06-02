@@ -12,6 +12,7 @@
 #import "UIImage+StackBlur.h"
 #import <QuartzCore/QuartzCore.h>
 #import "NotificationViewController.h"
+#import "AFImageRequestOperation.h"
 
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
@@ -110,6 +111,53 @@
     
 }
 
+-(void)getUserData{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+        NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, GET_URL,[userDefaults objectForKey:@"id"]]
+                                                              parameters:nil];
+    
+        AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+        [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            // Print the response body in text
+            NSError *e = nil;
+            NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+            if([accountDictionary objectForKey:@"displayPicture"]!= [NSNull null]){
+                [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
+                [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+                [userDefaults synchronize];
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        }];
+    
+        [followOperation start];
+    });
+}
+
+-(void)getImageUrl:(NSString *)imageurl{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSURL *url = [NSURL URLWithString:imageurl];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"GET"];
+        [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        
+        [AFImageRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"image/jpg"]];
+        AFImageRequestOperation *requestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            [profilePic setImage:image];
+        
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            NSLog(@"%@", error);
+        } ];
+    [requestOperation start];
+        });
+}
+
+#pragma mark -
+#pragma mark Image Picker
 - (void)imageSelect:(UITapGestureRecognizer*)sender {
     UIImagePickerController *imagePicker =
     [[UIImagePickerController alloc] init];
@@ -127,8 +175,8 @@
     // Code here to work with media
     [self dismissViewControllerAnimated:YES completion:nil];
     UIImage *profileImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    if([UIImageJPEGRepresentation(profileImage, 1) length] > 1 *1024*1024){
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    if([UIImageJPEGRepresentation(profileImage, 1) length] > 10 *1024*1024){
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Image Size Too Large" message:@"Image Size Too Large" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alertView show];
         return;
     }
@@ -153,9 +201,14 @@
      
      [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
      {
-         NSData *data = (NSData *)responseObject;
-         NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-         NSLog(@"%@", str);
+         NSError *e = nil;
+         NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+         if([accountDictionary objectForKey:@"displayPicture"] != [NSNull null]){
+             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+             [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
+             [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+             [userDefaults synchronize];
+         }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
          NSLog(@"%@", error);
@@ -184,6 +237,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     _container.panMode = MFSideMenuPanModeDefault;
+    [self getUserData];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

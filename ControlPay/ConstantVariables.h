@@ -12,6 +12,7 @@
 
 #define LOGIN_URL @"account/login"
 #define REGISTER_URL @"account/addaccount"
+#define GET_URL @"account/getAccount"
 #define CHANGE_PASSWORD @"account/changePassword"
 #define UPDATE_PROFILE @"account/uploadProfileImage"
 

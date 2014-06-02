@@ -9,6 +9,9 @@
 #import "NotificationViewController.h"
 #import "NotificationCell.h"
 
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
+
 @interface NotificationViewController ()
 
 @end
@@ -28,12 +31,39 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)getData{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, GET_URL,[userDefaults objectForKey:@"id"]]
+                                                              parameters:nil];
+    
+    AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // Print the response body in text
+        NSError *e = nil;
+        NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+        if([accountDictionary objectForKey:@"displayPicture"]!= [NSNull null]){
+            [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
+            [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+            [userDefaults synchronize];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+    
+    [followOperation start];
 }
 
 /*

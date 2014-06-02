@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MFSideMenuContainerViewController.h"
 
-@interface ProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface ProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate>
 {
     IBOutlet UIBarButtonItem *notificationBarButton;
     IBOutlet UIImageView * imagePreview;
