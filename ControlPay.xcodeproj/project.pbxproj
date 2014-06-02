@@ -52,7 +52,6 @@
 		65583E65191F10C900FBC3CC /* DebtsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65583E64191F10C900FBC3CC /* DebtsViewController.m */; };
 		656D907A192F7F32005C26AB /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656D9079192F7F32005C26AB /* ResetPasswordViewController.m */; };
 		656D907E192F8C00005C26AB /* Notification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656D907B192F8C00005C26AB /* Notification.xib */; };
-		656D907F192F8C00005C26AB /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 656D907D192F8C00005C26AB /* NotificationCell.m */; };
 		656D9082192F8C1D005C26AB /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 656D9081192F8C1D005C26AB /* NotificationViewController.m */; };
 		657AAFFF191EAC490009AD3B /* AddExpenditureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 657AAFFE191EAC490009AD3B /* AddExpenditureViewController.m */; };
 		6584DF331921AECA00F60D9A /* SettingsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6584DF321921AECA00F60D9A /* SettingsCell.m */; };
@@ -110,6 +109,7 @@
 		65EBD728190DCE9C00F3211C /* 9A9A9A-0.8.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EBD727190DCE9C00F3211C /* 9A9A9A-0.8.png */; };
 		65EBD72B190DCFEF00F3211C /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EBD72A190DCFEF00F3211C /* UIImage+ImageEffects.m */; };
 		65EBD730190DD56000F3211C /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EBD72F190DD56000F3211C /* AddFriendViewController.m */; };
+		65FD181B193C17CF006F40A5 /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FD181A193C17CF006F40A5 /* NotificationCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,8 +179,6 @@
 		656D9078192F7F32005C26AB /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
 		656D9079192F7F32005C26AB /* ResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordViewController.m; sourceTree = "<group>"; };
 		656D907B192F8C00005C26AB /* Notification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Notification.xib; sourceTree = "<group>"; };
-		656D907C192F8C00005C26AB /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCell.h; sourceTree = "<group>"; };
-		656D907D192F8C00005C26AB /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCell.m; sourceTree = "<group>"; };
 		656D9080192F8C1D005C26AB /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
 		656D9081192F8C1D005C26AB /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
 		657AAFFD191EAC490009AD3B /* AddExpenditureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddExpenditureViewController.h; sourceTree = "<group>"; };
@@ -279,6 +277,8 @@
 		65EBD72A190DCFEF00F3211C /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		65EBD72E190DD56000F3211C /* AddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
 		65EBD72F190DD56000F3211C /* AddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendViewController.m; sourceTree = "<group>"; };
+		65FD1819193C17CF006F40A5 /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCell.h; sourceTree = "<group>"; };
+		65FD181A193C17CF006F40A5 /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,8 +377,8 @@
 				659BEC8A1927CF6D00C44375 /* DebtsCell.m */,
 				659BEC8C1927CF7E00C44375 /* DebtsCell.xib */,
 				656D907B192F8C00005C26AB /* Notification.xib */,
-				656D907C192F8C00005C26AB /* NotificationCell.h */,
-				656D907D192F8C00005C26AB /* NotificationCell.m */,
+				65FD1819193C17CF006F40A5 /* NotificationCell.h */,
+				65FD181A193C17CF006F40A5 /* NotificationCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -788,7 +788,6 @@
 				658DBC0418F90BC70057A9E2 /* AFImageRequestOperation.m in Sources */,
 				65583E65191F10C900FBC3CC /* DebtsViewController.m in Sources */,
 				658DBC0318F90BC70057A9E2 /* AFHTTPRequestOperation.m in Sources */,
-				656D907F192F8C00005C26AB /* NotificationCell.m in Sources */,
 				6584DF361921AF0B00F60D9A /* SettingsViewController.m in Sources */,
 				16A569031927425500F08B0D /* ProfileViewController.m in Sources */,
 				65AD740618F6F31A00E6A7F7 /* ViewController.m in Sources */,
@@ -819,6 +818,7 @@
 				658DBC0918F90BC70057A9E2 /* AFXMLRequestOperation.m in Sources */,
 				659BEC911927D9D300C44375 /* Friend.m in Sources */,
 				658DBBEB18F8FF720057A9E2 /* SignupViewController.m in Sources */,
+				65FD181B193C17CF006F40A5 /* NotificationCell.m in Sources */,
 				162FF78519231575007C784D /* CRNavigationBar.m in Sources */,
 				65583E60191F0F6500FBC3CC /* SlideCell.m in Sources */,
 				65EBD72B190DCFEF00F3211C /* UIImage+ImageEffects.m in Sources */,

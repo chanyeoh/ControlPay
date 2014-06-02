@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoansViewController : UIViewController
+@interface LoansViewController : UIViewController{
+    IBOutlet UITextField *amountTextfield;
+}
 
+-(IBAction)addLoan:(id)sender;
 @end

@@ -8,6 +8,7 @@
 
 #import "NotificationViewController.h"
 #import "NotificationCell.h"
+#import "ConstantVariables.h"
 
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
@@ -31,6 +32,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self getData];
     
 }
 
@@ -45,7 +47,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
     NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
-                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, GET_URL,[userDefaults objectForKey:@"id"]]
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, NOTIFICATION_URL,[userDefaults objectForKey:@"id"]]
                                                               parameters:nil];
     
     AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -53,12 +55,9 @@
     [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         // Print the response body in text
         NSError *e = nil;
-        NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
-        if([accountDictionary objectForKey:@"displayPicture"]!= [NSNull null]){
-            [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
-            [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
-            [userDefaults synchronize];
-        }
+        notificationArray = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+        NSLog(@"%@", notificationArray);
+        [notificationTableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
     }];
@@ -80,7 +79,7 @@
 #pragma mark -
 #pragma mark TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
- return 0;
+ return [notificationArray count];
 }
  
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,25 +96,12 @@
     }
     
     cell.backgroundColor = [UIColor clearColor];
-    //NSDictionary *theDictionary = [pendingFriends objectAtIndex:indexPath.row];
-    //NSDictionary *friendDictionary = [theDictionary objectForKey:@"frienAccount"];
-    //cell.username.text = [friendDictionary objectForKey:@"fullName"];
-    [cell.username setTextColor:[UIColor cyanColor]];
-    //cell.notificationType.text = [theDictionary objectForKey:@"status"];
-    
-    /*    // Custom Button on each cell
-     UIButton * addFriends = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-     addFriends.frame = CGRectMake(254.0f, 23.0f, 40.0f , 25.0f);
-     addFriends.tag = indexPath.row;
-     addFriends.backgroundColor = [UIColor clearColor];
-     [addFriends setTitle:@"✓" forState:UIControlStateNormal];
-     [addFriends setTintColor:[UIColor whiteColor]];
-     [addFriends addTarget:self action:@selector(acceptFriendAlgo:) forControlEvents:UIControlEventTouchUpInside];
-     [[addFriends layer] setBorderWidth:1.0f];
-     [[addFriends layer] setBorderColor:[UIColor cyanColor].CGColor];
-     addFriends.layer.cornerRadius = 8.0f;
-     [cell addSubview:addFriends];
-     */
+    NSDictionary *theDictionary = [notificationArray objectAtIndex:indexPath.row];
+    NSDictionary *friendDictionary = [theDictionary objectForKey:@"userAccount"];
+    NSLog(@"%@", friendDictionary);
+
+    [cell.notificationText setText:[NSString stringWithFormat:@"%@%@",  [friendDictionary objectForKey:@"fullName"], [theDictionary objectForKey:@"notification"]]];
+
     return cell;
 }
 

@@ -11,7 +11,7 @@
 @interface NotificationViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     IBOutlet UITableView *notificationTableView;
-    
+    NSArray *notificationArray;
 }
 
 @end

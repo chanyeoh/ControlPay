@@ -2,7 +2,7 @@
 //  NotificationCell.m
 //  ControlPay
 //
-//  Created by Avik Bag on 5/23/14.
+//  Created by Yeoh Chan on 6/1/14.
 //  Copyright (c) 2014 Yeoh. All rights reserved.
 //
 
@@ -17,11 +17,6 @@
         // Initialization code
     }
     return self;
-}
-
-- (void)awakeFromNib
-{
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

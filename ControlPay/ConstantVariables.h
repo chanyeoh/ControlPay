@@ -25,10 +25,13 @@
 #define ADD_EXPENDITURE @"expenditures/add"
 #define GET_EXPENDITURE @"expenditures/getExpenditure"
 
+#define ADD_INCOME @"income/add"
 
 #define ADD_DEBTS @"debts/addDebt"
 #define GET_DEBTS @"debts/getDebt"
 #define OWE_DEBTS @"debts/getOwe"
+
+#define NOTIFICATION_URL @"notification/getnotification"
 
 @interface ConstantVariables : NSObject
 

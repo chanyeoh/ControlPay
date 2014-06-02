@@ -48,6 +48,6 @@
 }
 
 -(NSDictionary *)toDictionary{
-    return [[NSDictionary alloc] initWithObjectsAndKeys: self.accountid, @"accountId", self.category, @"category", self.amount, @"amount", nil];
+    return [[NSDictionary alloc] initWithObjectsAndKeys: self.accountid, @"accountId", self.amount, @"amount", self.category, @"category", nil];
 }
 @end
