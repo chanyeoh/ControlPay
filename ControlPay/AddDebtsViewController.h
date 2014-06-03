@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MFSideMenuContainerViewController.h"
 
 @interface AddDebtsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>{
     IBOutlet UITableView *friendTableView;
@@ -14,7 +15,11 @@
     IBOutlet UIImageView * imagePreview;
     double initialPosition;
     
+    NSMutableArray *oweArray;
+    NSMutableArray *debtArray;
+    
 }
 @property(strong,nonatomic)NSMutableArray *friendsArray;
+@property(strong, nonatomic) MFSideMenuContainerViewController *container;
 -(IBAction)confirmButton:(id)sender;
 @end

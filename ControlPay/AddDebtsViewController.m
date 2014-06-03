@@ -17,6 +17,8 @@
 #import "Friend.h"
 #import "UIImage+StackBlur.h"
 
+#import "Debt.h"
+
 @interface AddDebtsViewController ()
 
 @end
@@ -58,13 +60,129 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [self getDebtConnection];
+    [self getOweConnection];
+    _container.panMode = MFSideMenuPanModeDefault;
     [friendTableView reloadData];
 }
+
+
+
+#pragma mark -
+#pragma mark Connection Data
+-(void)getDebtConnection{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, GET_DEBTS,[userDefaults objectForKey:@"id"]]
+                                                              parameters:nil];
+    
+    AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // Print the response body in text
+        NSError *e = nil;
+        NSArray *debtList = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+        
+        debtArray = [[NSMutableArray alloc] init];
+        NSMutableArray *myDebtsArray = [self combineExtraData: [debtList mutableCopy]];
+        for (NSDictionary *debtDict in myDebtsArray) {
+            Debt *debt = [[Debt alloc]init];
+            [debt updateContext:debtDict];
+            [debtArray addObject:debt];
+        }
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:debtArray];
+        [userDefaults setObject:data forKey:@"debtsArray"];
+        [userDefaults synchronize];
+        [friendTableView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //NSLog(@"%@", error);
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"debtsArray"];
+        debtArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [friendTableView reloadData];
+    }];
+    
+    [followOperation start];
+}
+
+-(void)getOweConnection{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, OWE_DEBTS,[userDefaults objectForKey:@"id"]]
+                                                              parameters:nil];
+    
+    AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // Print the response body in text
+        NSError *e = nil;
+        NSString *jsonString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSArray *debtList = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+        [userDefaults setObject:jsonString forKey:@"oweArray"];
+        
+        oweArray = [[NSMutableArray alloc] init];
+        NSMutableArray *myDebtsArray = [self combineExtraData: [debtList mutableCopy]];
+        for (NSDictionary *debtDict in myDebtsArray) {
+            Debt *debt = [[Debt alloc]init];
+            [debt updateContext:debtDict];
+            [oweArray addObject:debt];
+        }
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:oweArray];
+        [userDefaults setObject:data forKey:@"oweArray"];
+        [userDefaults synchronize];
+        
+        [friendTableView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //NSLog(@"%@", error);
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"oweArray"];
+        oweArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [friendTableView reloadData];
+    }];
+    
+    [followOperation start];
+}
+
+-(NSMutableArray *)combineExtraData:(NSMutableArray *)debtList{
+    for (int i = 0; i < [debtList count]; i ++) {
+        NSMutableDictionary *debtDict = [debtList objectAtIndex:i];
+        long friendId = [[debtDict objectForKey:@"friendId"] longValue];
+        double myDebts = [[debtDict objectForKey:@"debtAmount"] doubleValue];
+        int counter = i + 1;
+        while(true){
+            if(counter >= [debtList count])
+                break;
+            NSDictionary *innerDebtDict = [debtList objectAtIndex:counter];
+            if([[innerDebtDict objectForKey:@"friendId"] longValue] == friendId){
+                myDebts += [[innerDebtDict objectForKey:@"debtAmount"] floatValue];
+                [debtDict setObject:[NSNumber numberWithDouble:myDebts] forKey:@"debtAmount"];
+                [debtList removeObjectAtIndex:counter];
+                continue;
+            }
+            counter ++;
+        }
+    }
+    return debtList;
+}
+#pragma mark -
+#pragma mark IBAction
+
+-(IBAction)toggleSwitch:(id)sender{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_container setMenuState:MFSideMenuStateLeftMenuOpen];
+    });
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    _container.panMode = MFSideMenuPanModeNone;
+}
+
 
 #pragma mark -
 #pragma mark TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_friendsArray count] + 1;
+    NSLog(@"%@", oweArray);
+    return [_friendsArray count] + [oweArray count] + [debtArray count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -83,16 +201,37 @@
             [panRecognizer setMinimumNumberOfTouches:1];
             [panRecognizer setMaximumNumberOfTouches:1];
             [cell addGestureRecognizer:panRecognizer];
+    }
+    if(indexPath.row < [oweArray count]){
+        Debt *debt = [oweArray objectAtIndex:indexPath.row];
         
-    }
-    if(indexPath.row >= [_friendsArray count]){
-        [cell.friendLabel setHidden:YES];
-        [cell.moneyLabel setHidden:YES];
-        [cell.addButton setHidden:NO];
-        [cell.addButton addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
+        cell.friendLabel.text = debt.friendName;
+        cell.moneyLabel.text = [NSString stringWithFormat:@"$%@", debt.debtAmount];
+        cell.textColor = [UIColor whiteColor];
+        cell.friendLabel.shadowColor = [UIColor whiteColor];
+        cell.overLayView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.35];
+        UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 58, cell.contentView.frame.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        
+        [cell.contentView addSubview:lineView];
         return cell;
+    }else if(indexPath.row + [oweArray count] < [debtArray count]){
+        Debt *debt = [debtArray objectAtIndex:indexPath.row - [oweArray count]];
+        
+        cell.friendLabel.text = debt.friendName;
+        cell.moneyLabel.text = [NSString stringWithFormat:@"$%@", debt.debtAmount];
+        cell.textColor = [UIColor whiteColor];
+        cell.friendLabel.shadowColor = [UIColor whiteColor];
+        cell.overLayView.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.35];
+        UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 58, cell.contentView.frame.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        
+        [cell.contentView addSubview:lineView];
+        return cell;
+
     }
-    NSDictionary *theDictionary = [_friendsArray objectAtIndex:indexPath.row];
+
+    NSDictionary *theDictionary = [_friendsArray objectAtIndex:indexPath.row - [oweArray count] - [debtArray count]];
     Friend *friend = [theDictionary objectForKey:@"friend"];
     
     cell.friendLabel.text = friend.fullName;

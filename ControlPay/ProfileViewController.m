@@ -26,7 +26,7 @@
 @implementation ProfileViewController
 {
     NSArray * heading;
-    NSArray * pricing;
+    NSMutableArray * pricing;
     NSArray * labelItems;
 }
 
@@ -46,7 +46,7 @@
 	// Do any additional setup after loading the view.
     
     heading = [NSArray arrayWithObjects:@"Expenditure",@"Incomes",nil];
-    pricing = [NSArray arrayWithObjects:@"$555",@"$267",nil];
+    pricing = [NSMutableArray arrayWithObjects:@"$0",@"$0",nil];
     labelItems = [NSArray arrayWithObjects:@"expensesItem.png",@"incomesItem.png",nil];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -64,7 +64,7 @@
     // Set the image to its image property.
     //[rightButton setImage:collectionsRightImage forState:UIControlStateNormal];
     
-    UILabel *badge = [[UILabel alloc] initWithFrame:CGRectMake(rightButton.frame.size.width - 6.0, rightButton.frame.origin.y - 8.0, 15.0, 15.0)];
+    badge = [[UILabel alloc] initWithFrame:CGRectMake(rightButton.frame.size.width - 6.0, rightButton.frame.origin.y - 8.0, 15.0, 15.0)];
     // Set the background color.
     [badge setBackgroundColor:[UIColor colorWithRed:1.0 green:91.0/255.0 blue:84.0/255.0 alpha:1.0]];
     // Set the corner radius value to make the label appear rounded.
@@ -80,6 +80,7 @@
     [badge setFont:[UIFont fontWithName:@"Avenir" size:12.0]];
     // Add the image as a subview to the custom button.
     [rightButton addSubview:badge];
+    [badge setHidden:YES];
     
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
@@ -109,6 +110,65 @@
     addIncomes.layer.borderWidth = 1.0f;
     addIncomes.layer.cornerRadius = 5.0f;
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([userDefaults objectForKey:@"notiCount"]){
+        [badge setHidden:NO];
+        [badge setText:[userDefaults objectForKey:@"notiCount"]];
+    }
+    if([userDefaults objectForKey:@"income"]){
+        [pricing setObject:[NSString stringWithFormat:@"$%@", [userDefaults objectForKey:@"income"]] atIndexedSubscript:1] ;
+    }
+    if([userDefaults objectForKey:@"expenditure"]){
+        [pricing setObject:[NSString stringWithFormat:@"$%@", [userDefaults objectForKey:@"expenditure"]] atIndexedSubscript:0];
+    }
+    
+    [self getBasicData];
+}
+
+-(void)getBasicData{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, GET_BASIC,[userDefaults objectForKey:@"id"]]
+                                                              parameters:nil];
+    AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // Print the response body in text
+        NSString *basicString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSArray *myArr = [basicString componentsSeparatedByString:@";"];
+        if([myArr objectAtIndex:0]){
+            [badge setHidden:NO];
+            [badge setText:[myArr objectAtIndex:0]];
+            [userDefaults setObject:[myArr objectAtIndex:0] forKey:@"notiCount"];
+        }
+        if([myArr objectAtIndex:1]){
+            [pricing setObject:[NSString stringWithFormat:@"$%@", [myArr objectAtIndex:1]] atIndexedSubscript:1];
+            [userDefaults setObject:[myArr objectAtIndex:1] forKey:@"income"];
+        }
+        if([myArr objectAtIndex:2]){
+            [pricing setObject:[NSString stringWithFormat:@"$%@", [myArr objectAtIndex:2]] atIndexedSubscript:0];
+            [userDefaults setObject:[myArr objectAtIndex:2] forKey:@"expenditure"];
+        }
+        
+        [userDefaults synchronize];
+        [summaryTableView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //NSLog(@"%@", error);
+        if([userDefaults objectForKey:@"notiCount"]){
+            [badge setHidden:NO];
+            [badge setText:[userDefaults objectForKey:@"notiCount"]];
+        }
+        if([userDefaults objectForKey:@"income"]){
+            [pricing setObject:[NSString stringWithFormat:@"$%@", [userDefaults objectForKey:@"income"]] atIndexedSubscript:1] ;
+        }
+        if([userDefaults objectForKey:@"expenditure"]){
+            [pricing setObject:[NSString stringWithFormat:@"$%@", [userDefaults objectForKey:@"expenditure"]] atIndexedSubscript:0];
+        }
+        [summaryTableView reloadData];
+    }];
+    
+    [followOperation start];
 }
 
 -(void)getUserData{

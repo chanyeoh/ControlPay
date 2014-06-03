@@ -15,6 +15,7 @@
 #define GET_URL @"account/getAccount"
 #define CHANGE_PASSWORD @"account/changePassword"
 #define UPDATE_PROFILE @"account/uploadProfileImage"
+#define GET_BASIC @"account/getbasics"
 
 #define GET_FRIENDS_URL @"friends/getFriendsList"
 #define SEARCH_PHONE_URL @"friends/getPhoneNumber"
