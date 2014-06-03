@@ -10,6 +10,8 @@
 		162A2D721933D7A800DA53C9 /* setIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 162A2D711933D7A800DA53C9 /* setIcon.png */; };
 		162FF78519231575007C784D /* CRNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 162FF78219231575007C784D /* CRNavigationBar.m */; };
 		162FF78619231575007C784D /* CRNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 162FF78419231575007C784D /* CRNavigationController.m */; };
+		1668BE27193D11C400D2D2D8 /* ProfileHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1668BE26193D11C400D2D2D8 /* ProfileHeaderCell.xib */; };
+		1668BE2A193D11DB00D2D2D8 /* ProfileHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1668BE29193D11DB00D2D2D8 /* ProfileHeaderCell.m */; };
 		16708FE9192755E000F153DB /* AddExpenditureButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 16708FE8192755E000F153DB /* AddExpenditureButton.png */; };
 		1687D112193301AF000ADE9E /* sliderBack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1687D111193301AF000ADE9E /* sliderBack.jpg */; };
 		1687D114193310FF000ADE9E /* transportationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1687D113193310FF000ADE9E /* transportationIcon.png */; };
@@ -128,6 +130,9 @@
 		162FF78219231575007C784D /* CRNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNavigationBar.m; sourceTree = "<group>"; };
 		162FF78319231575007C784D /* CRNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNavigationController.h; sourceTree = "<group>"; };
 		162FF78419231575007C784D /* CRNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNavigationController.m; sourceTree = "<group>"; };
+		1668BE26193D11C400D2D2D8 /* ProfileHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderCell.xib; sourceTree = "<group>"; };
+		1668BE28193D11DB00D2D2D8 /* ProfileHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileHeaderCell.h; sourceTree = "<group>"; };
+		1668BE29193D11DB00D2D2D8 /* ProfileHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileHeaderCell.m; sourceTree = "<group>"; };
 		16708FE8192755E000F153DB /* AddExpenditureButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddExpenditureButton.png; sourceTree = "<group>"; };
 		1687D111193301AF000ADE9E /* sliderBack.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sliderBack.jpg; sourceTree = "<group>"; };
 		1687D113193310FF000ADE9E /* transportationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transportationIcon.png; sourceTree = "<group>"; };
@@ -379,6 +384,9 @@
 				65FD1819193C17CF006F40A5 /* NotificationCell.h */,
 				65FD181A193C17CF006F40A5 /* NotificationCell.m */,
 				656D907B192F8C00005C26AB /* Notification.xib */,
+				1668BE26193D11C400D2D2D8 /* ProfileHeaderCell.xib */,
+				1668BE28193D11DB00D2D2D8 /* ProfileHeaderCell.h */,
+				1668BE29193D11DB00D2D2D8 /* ProfileHeaderCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -762,6 +770,7 @@
 				16FD31A019287F27007B8A45 /* finalInput.png in Resources */,
 				16FD319C19286D4C007B8A45 /* lionProfile.jpg in Resources */,
 				16708FE9192755E000F153DB /* AddExpenditureButton.png in Resources */,
+				1668BE27193D11C400D2D2D8 /* ProfileHeaderCell.xib in Resources */,
 				16DD1285192976DD0073881D /* singaporeSkyline.jpg in Resources */,
 				16AED24919232F4500BEB21D /* newInputlower.png in Resources */,
 				1687D11819331385000ADE9E /* educationIcon.png in Resources */,
@@ -813,6 +822,7 @@
 				65AD743518F70E1300E6A7F7 /* SideBarViewController.m in Sources */,
 				658DBC0718F90BC70057A9E2 /* AFPropertyListRequestOperation.m in Sources */,
 				6524643718FA14CC0011692C /* FriendsViewController.m in Sources */,
+				1668BE2A193D11DB00D2D2D8 /* ProfileHeaderCell.m in Sources */,
 				658DBC0D18F9864C0057A9E2 /* ConstantVariables.m in Sources */,
 				658DBBEF18F908B00057A9E2 /* MBProgressHUD.m in Sources */,
 				658DBC0918F90BC70057A9E2 /* AFXMLRequestOperation.m in Sources */,

@@ -15,6 +15,10 @@
 #import "DebtsViewController.h"
 #import "SettingsViewController.h"
 #import "UIImage+StackBlur.h"
+#import <QuartzCore/QuartzCore.h>
+
+#import "ProfileHeaderCell.h"
+
 
 @interface SideBarViewController ()
 
@@ -35,7 +39,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    sideBarArray = [[NSArray alloc] initWithObjects:@"Profile", @"Expenditures", @"Debts", @"Friends", @"Settings", @"Logout", nil];
+    sideBarArray = [[NSArray alloc] initWithObjects:@"Profile", @"Expenditures", @"Debts", @"Friends", nil];
     
     // The Layout and design end of the page
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:1.5f withImage:[UIImage imageNamed:@"backgroundBlurDef.jpg"]]];
@@ -81,6 +85,15 @@
     
 }
 
+-(void)setRoundedView:(UIImageView *)roundedView toDiameter:(float)newSize;
+{
+    CGPoint saveCenter = roundedView.center;
+    CGRect newFrame = CGRectMake(roundedView.frame.origin.x, roundedView.frame.origin.y, newSize, newSize);
+    roundedView.frame = newFrame;
+    roundedView.layer.cornerRadius = newSize / 2.0;
+    roundedView.center = saveCenter;
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:YES];
 }
@@ -92,7 +105,7 @@
 }
 
 #pragma mark -
-#pragma mark TableView
+#pragma mark TableView for elements
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [sideBarArray count];
 }
@@ -102,14 +115,39 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"SideMenuCell";
     
+    static NSString *simpleTableIdentifier = @"";
+    if (indexPath.row == 0)
+    {
+        simpleTableIdentifier = @"ProfileHeaderCell";
+        
+        ProfileHeaderCell *cell = (ProfileHeaderCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil)		    {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ProfileHeaderCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+            
+        }
+
+        UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(15, 58, cell.contentView.frame.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        
+        [cell.contentView addSubview:lineView];
+        cell.backgroundColor = [UIColor clearColor];
+        
+        
+        return cell;
+        
+    }
+
+    simpleTableIdentifier = @"SideMenuCell";
+        
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-    
+    UIFont *myFont = [ UIFont fontWithName: @"Avenir" size: 17.0 ];
+    cell.textLabel.font  = myFont;
     cell.textLabel.text = [sideBarArray objectAtIndex:indexPath.row];
     cell.textColor = [UIColor whiteColor];
     cell.textLabel.shadowColor = [UIColor whiteColor];
