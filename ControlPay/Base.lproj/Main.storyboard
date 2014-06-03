@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="V8V-Gd-dkl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="V8V-Gd-dkl">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -40,7 +40,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ADH-Cp-N7h">
-                                <rect key="frame" x="0.0" y="65" width="320" height="413"/>
+                                <rect key="frame" x="0.0" y="64.999999942848888" width="320" height="413"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -281,7 +281,7 @@
             </objects>
             <point key="canvasLocation" x="-620" y="-619"/>
         </scene>
-        <!--Add Debts View Controller-->
+        <!--Add Debts View Controller - Debts-->
         <scene sceneID="uoM-zB-qN2">
             <objects>
                 <viewController storyboardIdentifier="AddDebtsViewController" id="KCe-n8-Yn1" customClass="AddDebtsViewController" sceneMemberID="viewController">
@@ -310,7 +310,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="PNB-3n-fdP">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Debts" id="PNB-3n-fdP">
+                        <barButtonItem key="leftBarButtonItem" image="slider.png" id="aEh-W2-51E">
+                            <connections>
+                                <action selector="toggleSwitch:" destination="KCe-n8-Yn1" id="M5C-y0-l4A"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="+" id="jav-Ub-ljd">
                             <connections>
                                 <action selector="addFriend:" destination="KCe-n8-Yn1" id="8oP-Up-lE9"/>
@@ -426,7 +432,7 @@
                     <navigationBar key="navigationBar" clipsSubviews="YES" contentMode="scaleToFill" id="Xgk-cP-Hkv">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" patternImage="FFFB4184-3A03-4F22-A95A-5B719781AF18" colorSpace="pattern"/>
+                        <color key="tintColor" patternImage="722EA800-D074-4C41-9E1B-05D144E39C37" colorSpace="pattern"/>
                         <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="0.0"/>
@@ -461,7 +467,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" scrollEnabled="NO" indicatorStyle="black" keyboardDismissMode="interactive" id="v5b-fF-hVs">
-                                <rect key="frame" x="0.0" y="63.999992054856449" width="320" height="200"/>
+                                <rect key="frame" x="0.0" y="64.00000048882373" width="320" height="200"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" background="finalInput.png" id="V47-ZY-uLc">
@@ -539,7 +545,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" id="PIv-lj-a0i">
-                                <rect key="frame" x="0.0" y="51.999999377662839" width="320" height="408"/>
+                                <rect key="frame" x="0.0" y="51.999999151922516" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" background="newInput.png" id="a12-8K-qlR">
@@ -976,6 +982,7 @@
                         <outlet property="addIncomes" destination="odn-N1-Id1" id="so6-Sd-gWJ"/>
                         <outlet property="imagePreview" destination="UMC-kB-UaX" id="bOD-6b-X7B"/>
                         <outlet property="profilePic" destination="Xxu-sv-fdh" id="DJp-QW-zKx"/>
+                        <outlet property="summaryTableView" destination="C61-3N-CZv" id="hwz-Qv-aU3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WaC-jq-wCi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1057,7 +1064,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" id="vqt-z0-DGq">
-                                <rect key="frame" x="0.0" y="51.99999945657941" width="320" height="408"/>
+                                <rect key="frame" x="0.0" y="51.999999234270241" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" background="newInput.png" id="eO7-KA-T1O">
@@ -1156,7 +1163,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" id="p4Z-bS-Ady">
-                                <rect key="frame" x="0.0" y="51.999998146452462" width="320" height="408"/>
+                                <rect key="frame" x="0.0" y="52" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" background="newInput.png" id="buf-MG-2wF">
@@ -1244,7 +1251,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="FFFB4184-3A03-4F22-A95A-5B719781AF18" width="320" height="460">
+        <image name="722EA800-D074-4C41-9E1B-05D144E39C37" width="320" height="460">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

@@ -16,6 +16,10 @@
     IBOutlet UIImageView * profilePic;
     IBOutlet UIButton * addExpenses;
     IBOutlet UIButton * addIncomes;
+    
+    IBOutlet UITableView *summaryTableView;
+    
+    UILabel *badge;
 
     
 }
