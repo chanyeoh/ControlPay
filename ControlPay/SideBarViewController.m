@@ -12,12 +12,16 @@
 
 #import "ProfileViewController.h"
 #import "FriendsViewController.h"
-#import "DebtsViewController.h"
+#import "AddDebtsViewController.h"
 #import "SettingsViewController.h"
 #import "UIImage+StackBlur.h"
 #import <QuartzCore/QuartzCore.h>
 
 #import "ProfileHeaderCell.h"
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFImageRequestOperation.h"
+#import "ConstantVariables.h"
 
 
 @interface SideBarViewController ()
@@ -77,7 +81,7 @@
     [viewControllerArray addObject:expenditureNavController];
     
     // Debts View Controller
-    DebtsViewController *debtViewController = [storyboard instantiateViewControllerWithIdentifier:@"DebtsViewController"];
+    AddDebtsViewController *debtViewController = [storyboard instantiateViewControllerWithIdentifier:@"AddDebtsViewController"];
     debtViewController.container = _sidemenuContainer;
     UINavigationController *debtNavController = [[UINavigationController alloc]initWithRootViewController:debtViewController];
     [viewControllerArray addObject:debtNavController];
@@ -117,6 +121,42 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setBasicData:(UILabel *)label withUIImageView:(UIImageView *)imageView{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
+                                                                    path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, GET_URL,[userDefaults objectForKey:@"id"]]
+                                                              parameters:nil];
+    AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *e = nil;
+        NSDictionary *theDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+        [self getImageUrl:[theDictionary objectForKey:@"displayPicture"] withUIImageView:imageView];
+        [label setText:[theDictionary objectForKey:@"fullName"]];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) { }];
+    
+    [followOperation start];
+}
+
+-(void)getImageUrl:(NSString *)imageurl withUIImageView:(UIImageView *)imageView{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSURL *url = [NSURL URLWithString:imageurl];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"GET"];
+        [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        
+        [AFImageRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"image/jpg"]];
+        AFImageRequestOperation *requestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            [imageView setImage:image];
+            
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            NSLog(@"%@", error);
+        } ];
+        [requestOperation start];
+    });
+}
+
 #pragma mark -
 #pragma mark TableView for elements
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -151,6 +191,7 @@
         cell.layer.borderColor = [UIColor whiteColor].CGColor;
         cell.profilePic.layer.borderWidth = 1.0f;
         cell.profilePic.image = [UIImage imageNamed:@"lionProfile.jpg"];
+        [self setBasicData:cell.profileText withUIImageView:cell.profilePic];
         
         return cell;
         

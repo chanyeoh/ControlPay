@@ -88,6 +88,7 @@
         
         
         [userDefaults synchronize];
+        [expenditureTableView reloadData];
         //pendingButton.title = [NSString stringWithFormat:@"Pending (%d)", pendingCounter];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSData *expenditureModelList = [[NSUserDefaults standardUserDefaults] objectForKey:@"expenditureArray"];
@@ -119,10 +120,8 @@
             }
             
         }
-     NSLog(@"%@, %@", exp.category, exp.amount);
     }
     
-    NSLog(@"%@, %@", [categories objectAtIndex:2],[[expenditureNumbers objectAtIndex:2] stringValue]);
 }
 
 #pragma mark -
@@ -163,7 +162,8 @@
     
     cell.nameLabel.text = [myCatagories objectAtIndex:indexPath.row];
     NSLog(@"%@",[expenditureNumbers objectAtIndex:indexPath.row]);
-    cell.amountLabel.text = [expenditureNumbers objectAtIndex:indexPath.row];
+    cell.amountLabel.text = [NSString stringWithFormat:@"$%@", [expenditureNumbers objectAtIndex:indexPath.row]];
+    [cell.amountLabel setTextColor:[UIColor whiteColor]];
     //cell.imageProperty.image = [UIImage imageNamed:@"slider.png"];
     cell.backgroundColor = [UIColor clearColor];
     cell.imageProperty.image = [UIImage imageNamed:[imageIcons objectAtIndex:indexPath.row]];

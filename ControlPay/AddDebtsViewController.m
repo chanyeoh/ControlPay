@@ -71,6 +71,7 @@
 #pragma mark -
 #pragma mark Connection Data
 -(void)getDebtConnection{
+    dispatch_async(dispatch_get_main_queue(), ^{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
     NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
@@ -95,26 +96,35 @@
         [userDefaults setObject:data forKey:@"debtsArray"];
         [userDefaults synchronize];
         [friendTableView reloadData];
+        
+        NSLog(@"Reload Once");
+        //[NSThread sleepForTimeInterval:3];
+        //[self getDebtConnection];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //NSLog(@"%@", error);
         NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"debtsArray"];
         debtArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         [friendTableView reloadData];
+        
+        //[NSThread sleepForTimeInterval:3];
+        //[self getDebtConnection];
     }];
     
     [followOperation start];
+    });
 }
 
 -(void)getOweConnection{
+    dispatch_async(dispatch_get_main_queue(), ^{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     AFHTTPClient *httpClientFollower = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
     NSMutableURLRequest *request = [httpClientFollower requestWithMethod:@"GET"
                                                                     path:[NSString stringWithFormat:@"%@%@/%@", BASE_URL, OWE_DEBTS,[userDefaults objectForKey:@"id"]]
                                                               parameters:nil];
     
-    AFHTTPRequestOperation *followOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    followOperationOwe = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [httpClientFollower registerHTTPOperationClass:[AFHTTPRequestOperation class]];
-    [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [followOperationOwe setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         // Print the response body in text
         NSError *e = nil;
         NSString *jsonString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -133,14 +143,21 @@
         [userDefaults synchronize];
         
         [friendTableView reloadData];
+
+        //[NSThread sleepForTimeInterval:3];
+        //[self getOweConnection];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //NSLog(@"%@", error);
         NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"oweArray"];
         oweArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         [friendTableView reloadData];
+        
+        //[NSThread sleepForTimeInterval:3];
+        //[self getOweConnection];
     }];
     
-    [followOperation start];
+    [followOperationOwe start];
+    });
 }
 
 -(NSMutableArray *)combineExtraData:(NSMutableArray *)debtList{
@@ -175,13 +192,13 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     _container.panMode = MFSideMenuPanModeNone;
+    [followOperationOwe cancel];
 }
 
 
 #pragma mark -
 #pragma mark TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"%@", oweArray);
     return [_friendsArray count] + [oweArray count] + [debtArray count];
 }
 
