@@ -45,6 +45,17 @@
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:1.5f withImage:[UIImage imageNamed:@"backgroundBlurDef.jpg"]]];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"wowWallpaper4.jpg"]];
     
+    // Button design
+    logOut.layer.borderWidth = 1.0f;
+    logOut.layer.cornerRadius = 5.0f;
+    logOut.layer.borderColor = [UIColor whiteColor].CGColor;
+    logOut.layer.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.28].CGColor;
+    
+    resetPass.layer.borderWidth = 1.0f;
+    resetPass.layer.cornerRadius = 5.0f;
+    resetPass.layer.borderColor = [UIColor whiteColor].CGColor;
+    resetPass.layer.backgroundColor = [UIColor colorWithRed:48.0/255.0 green:144.0/255.0 blue:199.0/255.0 alpha:0.28].CGColor;
+    
     //StackBlur Option Background;
     imagePreview.image=[[UIImage imageNamed:@"singaporeSkyline.jpg"] stackBlur:20];
     
@@ -85,13 +96,15 @@
     
 }
 
--(void)setRoundedView:(UIImageView *)roundedView toDiameter:(float)newSize;
+-(UIImageView*)setRoundedView:(UIImageView *)roundedView toDiameter:(float)newSize;
 {
     CGPoint saveCenter = roundedView.center;
     CGRect newFrame = CGRectMake(roundedView.frame.origin.x, roundedView.frame.origin.y, newSize, newSize);
     roundedView.frame = newFrame;
     roundedView.layer.cornerRadius = newSize / 2.0;
     roundedView.center = saveCenter;
+    
+    return roundedView;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -133,7 +146,11 @@
         
         [cell.contentView addSubview:lineView];
         cell.backgroundColor = [UIColor clearColor];
-        
+        [self setRoundedView:cell.profilePic toDiameter:40.0];
+        cell.profilePic.layer.masksToBounds = YES;
+        cell.layer.borderColor = [UIColor whiteColor].CGColor;
+        cell.profilePic.layer.borderWidth = 1.0f;
+        cell.profilePic.image = [UIImage imageNamed:@"lionProfile.jpg"];
         
         return cell;
         
@@ -173,5 +190,33 @@
         [_sidemenuContainer setMenuState:MFSideMenuStateClosed];
     });
 }
+
+-(IBAction)resetPassButton:(id)sender{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
+    // Settings View Controller
+    SettingsViewController *settingViewController = [storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    settingViewController.container = _sidemenuContainer;
+    UINavigationController *settingNavController = [[UINavigationController alloc]initWithRootViewController:settingViewController];
+    _sidemenuContainer.centerViewController =settingNavController;
+}
+
+-(IBAction)logOutButton:(id)sender{
+    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
+    
+        NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+        [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    //_sidemenuContainer.centerViewController =[viewControllerArray objectAtIndex:indexPath.row];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_sidemenuContainer setMenuState:MFSideMenuStateClosed];
+    });
+    
+    
+}
+
+
 
 @end

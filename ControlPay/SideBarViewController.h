@@ -14,6 +14,8 @@
     NSArray *sideBarArray;
     NSMutableArray *viewControllerArray;
     IBOutlet UIImageView * imagePreview;
+    IBOutlet UIButton *logOut;
+    IBOutlet UIButton *resetPass;
 }
 
 @property(strong, nonatomic)MFSideMenuContainerViewController *sidemenuContainer;
