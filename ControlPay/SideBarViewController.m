@@ -133,7 +133,8 @@
     [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *e = nil;
         NSDictionary *theDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
-        //[self getImageUrl:[theDictionary objectForKey:@"displayPicture"] withUIImageView:imageView];
+        
+        [self getImageUrl:[theDictionary objectForKey:@"displayPicture"] withUIImageView:imageView];
         [label setText:[theDictionary objectForKey:@"fullName"]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) { }];
     
@@ -147,7 +148,7 @@
         NSURL *url = [NSURL URLWithString:imageurl];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"GET"];
-        [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         
         [AFImageRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"image/jpg"]];
         AFImageRequestOperation *requestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {

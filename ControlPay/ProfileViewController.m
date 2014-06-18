@@ -184,8 +184,9 @@
             NSError *e = nil;
             NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
             if([accountDictionary objectForKey:@"displayPicture"]!= [NSNull null]){
-                [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
-                //[self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+                if([userDefaults objectForKey:@"profilePic"] == nil)
+                    [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
+                [self getImageUrl:[userDefaults objectForKey:@"profilePic"]];
                 [userDefaults synchronize];
             }
             [self getBasicData];
@@ -202,7 +203,7 @@
         NSURL *url = [NSURL URLWithString:imageurl];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"GET"];
-        [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         
         [AFImageRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"image/jpg"]];
         AFImageRequestOperation *requestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
@@ -265,7 +266,7 @@
          if([accountDictionary objectForKey:@"displayPicture"] != [NSNull null]){
              NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
              [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
-             //[self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+             [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
              [userDefaults synchronize];
          }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
