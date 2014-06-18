@@ -15,4 +15,5 @@
 @property(copy, nonatomic) NSString *friendName;
 
 -(void)updateContext:(NSDictionary *)dictionary;
+-(void)updateContextReverse:(NSDictionary *)dictionary;
 @end

@@ -40,7 +40,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ADH-Cp-N7h">
-                                <rect key="frame" x="0.0" y="64.999999827828191" width="320" height="413"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="412.99999976995667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -459,7 +459,7 @@
                     <navigationBar key="navigationBar" clipsSubviews="YES" contentMode="scaleToFill" id="Xgk-cP-Hkv">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" patternImage="8045D063-976D-4B9F-ACEC-55D0429E9E7F" colorSpace="pattern"/>
+                        <color key="tintColor" patternImage="CC457BFE-CB40-4CE3-BDA4-4451A1CCFAB6" colorSpace="pattern"/>
                         <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="0.0"/>
@@ -494,7 +494,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" scrollEnabled="NO" indicatorStyle="black" keyboardDismissMode="interactive" id="v5b-fF-hVs">
-                                <rect key="frame" x="0.0" y="63.999995810670384" width="320" height="200"/>
+                                <rect key="frame" x="0.0" y="63.999990323100327" width="320" height="200"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" background="finalInput.png" id="V47-ZY-uLc">
@@ -572,7 +572,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" id="PIv-lj-a0i">
-                                <rect key="frame" x="0.0" y="52" width="320" height="407.99999867057079"/>
+                                <rect key="frame" x="0.0" y="51.999998479255403" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" background="newInput.png" id="a12-8K-qlR">
@@ -1009,6 +1009,7 @@
                         <outlet property="addIncomes" destination="odn-N1-Id1" id="so6-Sd-gWJ"/>
                         <outlet property="imagePreview" destination="UMC-kB-UaX" id="bOD-6b-X7B"/>
                         <outlet property="profilePic" destination="Xxu-sv-fdh" id="DJp-QW-zKx"/>
+                        <outlet property="summaryTableView" destination="C61-3N-CZv" id="4Yy-VI-rMl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WaC-jq-wCi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1090,7 +1091,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" id="vqt-z0-DGq">
-                                <rect key="frame" x="0.0" y="51.999998799402597" width="320" height="408"/>
+                                <rect key="frame" x="0.0" y="52" width="320" height="407.99999854852047"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" background="newInput.png" id="eO7-KA-T1O">
@@ -1189,7 +1190,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" canCancelContentTouches="NO" id="p4Z-bS-Ady">
-                                <rect key="frame" x="0.0" y="51.999999593997323" width="320" height="408"/>
+                                <rect key="frame" x="0.0" y="51.999999377662839" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" background="newInput.png" id="buf-MG-2wF">
@@ -1277,7 +1278,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="8045D063-976D-4B9F-ACEC-55D0429E9E7F" width="320" height="460">
+        <image name="CC457BFE-CB40-4CE3-BDA4-4451A1CCFAB6" width="320" height="460">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

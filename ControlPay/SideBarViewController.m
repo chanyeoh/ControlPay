@@ -113,6 +113,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:YES];
+    [sideBarTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -132,7 +133,7 @@
     [followOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *e = nil;
         NSDictionary *theDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
-        [self getImageUrl:[theDictionary objectForKey:@"displayPicture"] withUIImageView:imageView];
+        //[self getImageUrl:[theDictionary objectForKey:@"displayPicture"] withUIImageView:imageView];
         [label setText:[theDictionary objectForKey:@"fullName"]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) { }];
     
@@ -140,6 +141,8 @@
 }
 
 -(void)getImageUrl:(NSString *)imageurl withUIImageView:(UIImageView *)imageView{
+    if([imageurl isEqual:[NSNull null]])
+       return;
     dispatch_async(dispatch_get_main_queue(), ^{
         NSURL *url = [NSURL URLWithString:imageurl];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

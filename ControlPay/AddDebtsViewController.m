@@ -50,7 +50,21 @@
     imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
     
     initialPosition = -1;
+    
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(myGestureDetect:)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTapGesture];
 
+}
+
+-(void)myGestureDetect:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        NSLog(@"HERE");
+        // handling code
+        [self getDebtConnection];
+        [self getOweConnection];
+        [friendTableView reloadData];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,7 +111,6 @@
         [userDefaults synchronize];
         [friendTableView reloadData];
         
-        NSLog(@"Reload Once");
         //[NSThread sleepForTimeInterval:3];
         //[self getDebtConnection];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -135,7 +148,7 @@
         NSMutableArray *myDebtsArray = [self combineExtraData: [debtList mutableCopy]];
         for (NSDictionary *debtDict in myDebtsArray) {
             Debt *debt = [[Debt alloc]init];
-            [debt updateContext:debtDict];
+            [debt updateContextReverse:debtDict];
             [oweArray addObject:debt];
         }
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:oweArray];
@@ -199,7 +212,7 @@
 #pragma mark -
 #pragma mark TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_friendsArray count] + [oweArray count] + [debtArray count];
+    return [oweArray count] + [debtArray count]; // [_friendsArray count] + 
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -232,7 +245,7 @@
         
         [cell.contentView addSubview:lineView];
         return cell;
-    }else if(indexPath.row + [oweArray count] < [debtArray count]){
+    }else if(indexPath.row - [oweArray count] < [debtArray count]){
         Debt *debt = [debtArray objectAtIndex:indexPath.row - [oweArray count]];
         
         cell.friendLabel.text = debt.friendName;
@@ -247,7 +260,6 @@
         return cell;
 
     }
-
     NSDictionary *theDictionary = [_friendsArray objectAtIndex:indexPath.row - [oweArray count] - [debtArray count]];
     Friend *friend = [theDictionary objectForKey:@"friend"];
     
@@ -350,13 +362,48 @@
         initialPosition = -1;
         if(location.x < 100)
         {
+            CGRect cellView = CGRectMake(0, 0, 0, 60);
+            cell.overLayView.frame = cellView;
+            
             NSIndexPath *indexPath = [friendTableView indexPathForCell:cell];
-            [_friendsArray removeObjectAtIndex:indexPath.row];
-            [friendTableView reloadData];
+            if(indexPath.row < [oweArray count]){
+                [self deleteCellData: ((Debt *)[oweArray objectAtIndex:indexPath.row]).id];
+                //[oweArray removeObjectAtIndex:indexPath.row];
+            }else if(indexPath.row - [oweArray count] < [debtArray count]){
+                [self deleteCellData: ((Debt *)[debtArray objectAtIndex:indexPath.row - [oweArray count]]).id];
+                //[debtArray removeObjectAtIndex:indexPath.row - [oweArray count]];
+            }else{
+                //[_friendsArray removeObjectAtIndex:indexPath.row - [oweArray count] - [debtArray count]];
+
+            }
+                //[friendTableView reloadData];
             return;
         }
-        CGRect cellView = CGRectMake(0, 0, 320, 60);
-        cell.overLayView.frame = cellView;
     }
+}
+
+
+-(void)deleteCellData:(NSString *)debtId{
+    MBProgressHUD*HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    HUD.labelText = @"Deleting..";
+
+    NSURL *url = [NSURL URLWithString:BASE_URL];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    
+    [httpClient setParameterEncoding:AFJSONParameterEncoding];
+    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    [httpClient postPath:[NSString stringWithFormat:@"%@/%@", REMOVE_DEBT, debtId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [HUD hide:YES afterDelay:0.5];
+        NSError *e = nil;
+        NSDictionary *deleteDebtDict =[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
+        [self getOweConnection];
+        [self getDebtConnection];
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [HUD hide:YES afterDelay:0.5];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed to Connect" message:@"Failed to Connect to Server, please check your internet connection" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+    }];
 }
 @end

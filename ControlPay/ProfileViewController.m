@@ -122,7 +122,6 @@
         [pricing setObject:[NSString stringWithFormat:@"$%@", [userDefaults objectForKey:@"expenditure"]] atIndexedSubscript:0];
     }
     
-    [self getBasicData];
 }
 
 -(void)getBasicData{
@@ -150,7 +149,6 @@
             [pricing setObject:[NSString stringWithFormat:@"$%@", [myArr objectAtIndex:2]] atIndexedSubscript:0];
             [userDefaults setObject:[myArr objectAtIndex:2] forKey:@"expenditure"];
         }
-        
         [userDefaults synchronize];
         [summaryTableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -187,9 +185,10 @@
             NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
             if([accountDictionary objectForKey:@"displayPicture"]!= [NSNull null]){
                 [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
-                [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+                //[self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
                 [userDefaults synchronize];
             }
+            [self getBasicData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         }];
@@ -266,7 +265,7 @@
          if([accountDictionary objectForKey:@"displayPicture"] != [NSNull null]){
              NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
              [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
-             [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+             //[self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
              [userDefaults synchronize];
          }
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -348,7 +347,7 @@
     lineView.backgroundColor = [UIColor whiteColor];
     
     [cell.contentView addSubview:lineView];
-
+    
     cell.titleText.text = [heading objectAtIndex:indexPath.row];
     cell.priceText.text = [pricing objectAtIndex:indexPath.row];
     
