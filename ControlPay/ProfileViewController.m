@@ -91,7 +91,7 @@
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[backgroundDesignViewController blur:45.5f withImage:[UIImage imageNamed:@"wallpapers5.jpg"]]];
     
 	//StackBlur Option Background;
-    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:20];
+    imagePreview.image=[[UIImage imageNamed:@"sliderBack.jpg"] stackBlur:100];
     
     //UIImageView *profPic = [UIImage imageNamed:@"lionProfile.jpg"];
     profilePic.layer.cornerRadius = 10.0f;
