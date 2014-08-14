@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MFSideMenuContainerViewController.h"
+#import "AFHTTPRequestOperation.h"
 
 @interface AddDebtsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>{
     IBOutlet UITableView *friendTableView;
@@ -17,6 +18,8 @@
     
     NSMutableArray *oweArray;
     NSMutableArray *debtArray;
+    
+    AFHTTPRequestOperation *followOperationOwe;
     
 }
 @property(strong,nonatomic)NSMutableArray *friendsArray;

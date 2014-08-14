@@ -122,7 +122,6 @@
         [pricing setObject:[NSString stringWithFormat:@"$%@", [userDefaults objectForKey:@"expenditure"]] atIndexedSubscript:0];
     }
     
-    [self getBasicData];
 }
 
 -(void)getBasicData{
@@ -150,7 +149,6 @@
             [pricing setObject:[NSString stringWithFormat:@"$%@", [myArr objectAtIndex:2]] atIndexedSubscript:0];
             [userDefaults setObject:[myArr objectAtIndex:2] forKey:@"expenditure"];
         }
-        
         [userDefaults synchronize];
         [summaryTableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -186,10 +184,12 @@
             NSError *e = nil;
             NSDictionary *accountDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&e];
             if([accountDictionary objectForKey:@"displayPicture"]!= [NSNull null]){
-                [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
-                [self getImageUrl: [accountDictionary objectForKey:@"displayPicture"]];
+                if([userDefaults objectForKey:@"profilePic"] == nil)
+                    [userDefaults setObject:[accountDictionary objectForKey:@"displayPicture"] forKey:@"profilePic"];
+                [self getImageUrl:[userDefaults objectForKey:@"profilePic"]];
                 [userDefaults synchronize];
             }
+            [self getBasicData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         }];
@@ -203,7 +203,7 @@
         NSURL *url = [NSURL URLWithString:imageurl];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"GET"];
-        [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
         
         [AFImageRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"image/jpg"]];
         AFImageRequestOperation *requestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
@@ -348,7 +348,7 @@
     lineView.backgroundColor = [UIColor whiteColor];
     
     [cell.contentView addSubview:lineView];
-
+    
     cell.titleText.text = [heading objectAtIndex:indexPath.row];
     cell.priceText.text = [pricing objectAtIndex:indexPath.row];
     

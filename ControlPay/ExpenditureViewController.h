@@ -14,6 +14,9 @@
     NSArray *expenditureArray;
     IBOutlet PieView *pieView;
     IBOutlet UIImageView * imagePreview;
+    
+    IBOutlet UITableView *expenditureTableView;
+    
 }
 -(IBAction)toggleSwitch:(id)sender;
 @property(strong, nonatomic) MFSideMenuContainerViewController *container;

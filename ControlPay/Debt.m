@@ -39,4 +39,10 @@
     self.friendName = [[dictionary objectForKey:@"friendProfile"] objectForKey:@"fullName"];
 }
 
+-(void)updateContextReverse:(NSDictionary *)dictionary{
+    self.id = [dictionary objectForKey:@"id"];
+    
+    self.debtAmount = [dictionary objectForKey:@"debtAmount"];
+    self.friendName = [[dictionary objectForKey:@"senderProfile"] objectForKey:@"fullName"];
+}
 @end

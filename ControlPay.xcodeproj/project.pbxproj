@@ -44,6 +44,8 @@
 		6524643718FA14CC0011692C /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6524643618FA14CC0011692C /* FriendsViewController.m */; };
 		6524643B18FA19340011692C /* FriendsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6524643A18FA19340011692C /* FriendsCell.m */; };
 		6524643D18FA193F0011692C /* FriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6524643C18FA193F0011692C /* FriendsCell.xib */; };
+		65341558193FC7D600CA16B6 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 65341557193FC7D600CA16B6 /* bg.jpg */; };
+		6534155A193FC8FA00CA16B6 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 65341559193FC8FA00CA16B6 /* bg.png */; };
 		6538B11B190AEDAC00BBE823 /* transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 6538B11A190AEDAC00BBE823 /* transparent.png */; };
 		653A3C0318F8205600A24BBC /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653A3C0218F8205600A24BBC /* AddressBook.framework */; };
 		653A3C0518F8210F00A24BBC /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653A3C0418F8210F00A24BBC /* AddressBookUI.framework */; };
@@ -170,6 +172,8 @@
 		6524643918FA19340011692C /* FriendsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsCell.h; sourceTree = "<group>"; };
 		6524643A18FA19340011692C /* FriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsCell.m; sourceTree = "<group>"; };
 		6524643C18FA193F0011692C /* FriendsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendsCell.xib; sourceTree = "<group>"; };
+		65341557193FC7D600CA16B6 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
+		65341559193FC8FA00CA16B6 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		6538B11A190AEDAC00BBE823 /* transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent.png; sourceTree = "<group>"; };
 		653A3C0218F8205600A24BBC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		653A3C0418F8210F00A24BBC /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -547,6 +551,8 @@
 		65AD73F518F6F31A00E6A7F7 /* ControlPay */ = {
 			isa = PBXGroup;
 			children = (
+				65341559193FC8FA00CA16B6 /* bg.png */,
+				65341557193FC7D600CA16B6 /* bg.jpg */,
 				162FF78119231575007C784D /* CRNavigationBar.h */,
 				162FF78219231575007C784D /* CRNavigationBar.m */,
 				162FF78319231575007C784D /* CRNavigationController.h */,
@@ -740,6 +746,7 @@
 				659BEC85192740E200C44375 /* ProfileCell.xib in Resources */,
 				1687D112193301AF000ADE9E /* sliderBack.jpg in Resources */,
 				658DBC1418F9E78E0057A9E2 /* ic_launcher58x58.png in Resources */,
+				65341558193FC7D600CA16B6 /* bg.jpg in Resources */,
 				16FD31AC192890E3007B8A45 /* expensesItem.png in Resources */,
 				658DBC1A18F9E9CE0057A9E2 /* launcher_image640x960.png in Resources */,
 				1687D114193310FF000ADE9E /* transportationIcon.png in Resources */,
@@ -773,6 +780,7 @@
 				1668BE27193D11C400D2D2D8 /* ProfileHeaderCell.xib in Resources */,
 				16DD1285192976DD0073881D /* singaporeSkyline.jpg in Resources */,
 				16AED24919232F4500BEB21D /* newInputlower.png in Resources */,
+				6534155A193FC8FA00CA16B6 /* bg.png in Resources */,
 				1687D11819331385000ADE9E /* educationIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,7 +975,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ControlPay/ControlPay-Prefix.pch";
 				INFOPLIST_FILE = "ControlPay/ControlPay-Info.plist";
@@ -980,7 +987,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ControlPay/ControlPay-Prefix.pch";
 				INFOPLIST_FILE = "ControlPay/ControlPay-Info.plist";

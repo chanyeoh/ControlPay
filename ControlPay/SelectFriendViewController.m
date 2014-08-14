@@ -12,6 +12,12 @@
 #import "Friend.h"
 #import "UIImage+StackBlur.h"
 
+#import "AFHTTPRequestOperation.h"
+#import "AFHTTPClient.h"
+#import "AFJSONRequestOperation.h"
+#import "MBProgressHUD.h"
+#import "ConstantVariables.h"
+
 @interface SelectFriendViewController ()
 
 @end
@@ -91,12 +97,35 @@
         return;
     }
     
-    NSMutableDictionary *friendDict = [[NSMutableDictionary alloc]init];
+    MBProgressHUD*HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    HUD.labelText = @"Adding..";
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
     Friend *friend = [friendArray objectAtIndex:indexPath.row];
-    [friendDict setObject:friend forKey:@"friend"];
-    [friendDict setObject:amountMoney.text forKey:@"money"];
-    [_addDebts.friendsArray addObject:friendDict];
-    [self.navigationController popViewControllerAnimated:YES];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[userDefaults objectForKey:@"id"], @"senderId", friend.id, @"friendId", amountMoney.text, @"debtAmount",  nil];
+        
+    NSURL *url = [NSURL URLWithString:BASE_URL];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+        
+    [httpClient setParameterEncoding:AFJSONParameterEncoding];
+    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    [httpClient postPath:ADD_DEBTS parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //NSError *e = nil;
+        //NSDictionary *searchFriendArray =[NSJSONSerialization JSONObjectWithData:responseObject options NSJSONReadingMutableContainers error:&e];
+        [HUD hide:YES afterDelay:0.5];
+        NSMutableDictionary *friendDict = [[NSMutableDictionary alloc]init];
+        Friend *friend = [friendArray objectAtIndex:indexPath.row];
+        [friendDict setObject:friend forKey:@"friend"];
+        [friendDict setObject:amountMoney.text forKey:@"money"];
+        [_addDebts.friendsArray addObject:friendDict];
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [HUD hide:YES afterDelay:0.5];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"Failed to Connect" message:@"Failed to Connect to Server, please check your internet connection" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
+    }];
+    
 }
 
 @end

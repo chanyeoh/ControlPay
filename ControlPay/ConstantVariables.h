@@ -29,6 +29,7 @@
 #define ADD_INCOME @"income/add"
 
 #define ADD_DEBTS @"debts/addDebt"
+#define REMOVE_DEBT @"debts/removeDebt"
 #define GET_DEBTS @"debts/getDebt"
 #define OWE_DEBTS @"debts/getOwe"
 
